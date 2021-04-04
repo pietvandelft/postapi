@@ -20,7 +20,10 @@ app.listen(
 app.use(express.json());
 
 /**
- * Accepts 2 addresses and returns the distance in meters between them
+ * API call /distance
+ * Accepts 2 addresses and returns the distance in meters between them,
+ * as well as the lat-long of both addresses as a nice bonus.
+ * 
  * address1 = streetname + housenumber
  * address2 = streetname + housenumber
  */
@@ -70,7 +73,11 @@ app.get('/distance', (req: Request, res: Response) => {
     })();  
 });
 
-
+/**
+ * Gets lat-long for given address.
+ * @param address user-input: string of streetname with housenumber (e.g. sesamestreet 12-1)
+ * @returns Promise of lat-long (e.g. [4.851404272132884, 52.38235705147475])
+ */
 async function getLatLong (address: string){
     return new Promise(
         async function (resolve, reject){
