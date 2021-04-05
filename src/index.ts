@@ -29,8 +29,8 @@ app.use(express.json());
  */
 app.get('/distance', (req: Request, res: Response) => {
     (async () => {
-        let address1: string = req.query.address1 as string;
-        let address2: string = req.query.address2 as string;
+        const address1: string = req.query.address1 as string;
+        const address2: string = req.query.address2 as string;
 
         // Check if both inputs are present.
         // We don't do any other validation, as data is not stored.
@@ -50,12 +50,12 @@ app.get('/distance', (req: Request, res: Response) => {
         }
 
         // Call the Amsterdam-api for both addresses
-        let latLongX = getLatLong (address1)
-        let latLongY = getLatLong (address2)
+        const latLongX = getLatLong (address1)
+        const latLongY = getLatLong (address2)
 
         Promise.all([latLongX, latLongY]).then(values => {
             // Compute distance and return result as float in meters.
-            let distance: number = haversine(values[0], values[1], {unit: 'meter', format: '[lat,lon]'});
+            const distance: number = haversine(values[0], values[1], {unit: 'meter', format: '[lat,lon]'});
 
             res.status(200).send({
                 latLongX: values[0], // lat-long is returned as bonus-data
@@ -81,7 +81,7 @@ app.get('/distance', (req: Request, res: Response) => {
 async function getLatLong (address: string){
     return new Promise(
         async function (resolve, reject){
-            let apiResult: adamPlaceData = await got.get(apiAdamUrl + address).json();
+            const apiResult: adamPlaceData = await got.get(apiAdamUrl + address).json();
 
             if (apiResult.count == 0){
                 return reject ("No valid address found for: " + address);
