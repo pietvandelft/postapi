@@ -81,8 +81,13 @@ app.get('/distance', (req: Request, res: Response) => {
 async function getLatLong (address: string){
     return new Promise(
         async function (resolve, reject){
-            const apiResult: adamPlaceData = await got.get(apiAdamUrl + address).json();
-
+            let apiResult: adamPlaceData;
+            try{
+                apiResult = await got.get(apiAdamUrl + address).json();
+            }
+            catch(error){
+                return reject ("Sorry, could not connect to remote server for address lookup");
+            }
             if (apiResult.count == 0){
                 return reject ("No valid address found for: " + address);
             }
